@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "bun --watch src/index.ts"
+    "dev": "bun --watch src/index.ts",
+    "dev-dynamic": "bun --watch src/index-dynamic.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.25.2",
