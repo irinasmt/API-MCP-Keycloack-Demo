@@ -8,13 +8,8 @@ sequenceDiagram
     participant Client as MCP Client<br/>(Built into VS Code)
     participant Server as MCP Server<br/>(Your Express App)
 
-    Note over Host,Server: Server Startup
-    Host->>Server: Start server process
-    Server-->>Host: Server running on localhost:3002
-
     Note over Host,Server: 1. Initialization Phase
     Client->>Server: POST /mcp<br/>initialize request<br/>{protocolVersion, capabilities, clientInfo}
-    Server->>Server: Register tools<br/>(get-products, create-product, etc.)
     Server-->>Client: initialize response<br/>{protocolVersion, capabilities, serverInfo}
 
     Client->>Server: POST /mcp<br/>initialized notification
@@ -47,10 +42,6 @@ sequenceDiagram
     participant Keycloak as Keycloak<br/>(OAuth Provider)
     participant API as Product API<br/>(Protected Resource)
 
-    Note over Host,Server: Server Startup
-    Host->>Server: Start server process
-    Server-->>Host: Server running on localhost:3002
-
     Note over Host,API: Phase 1: OAuth Discovery
     Client->>Server: GET /.well-known/oauth-protected-resource-metadata
     Server-->>Client: OAuth metadata<br/>{authorization_endpoint, token_endpoint, scopes}
@@ -76,7 +67,6 @@ sequenceDiagram
     Client->>Server: POST /mcp<br/>Authorization: Bearer {token}<br/>initialize request
     Server->>Keycloak: POST introspection endpoint<br/>Verify token
     Keycloak-->>Server: {active: true, client_id, scope, exp}
-    Server->>Server: Create session<br/>Register tools for user
     Server-->>Client: initialize response<br/>{protocolVersion, capabilities}
 
     Client->>Server: POST /mcp<br/>Authorization: Bearer {token}<br/>initialized notification
